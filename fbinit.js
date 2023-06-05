@@ -12,7 +12,7 @@ const config = {
     projectId: 'rayypan-chatapp',
     storageBucket: 'rayypan-chatapp.appspot.com',
     messagingSenderId: '727355186020',
-    appId: '1:727355186020:web:e9b3c9b9cf7ccf2ae03871'
+    appId: '1:727355186020:web:e9b3c9b9cf7ccf2ae03871',
     // customised
     authDomain: 'rayypan.github.io/chatapp',
     databaseURL: 'https://rayypan-chatapp-default-rtdb.asia-southeast1.firebasedatabase.app',
