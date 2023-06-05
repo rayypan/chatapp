@@ -5,7 +5,7 @@ import * as util from 'util.js';
 const userName = null;
 const userUid = null;
 
-Auth.onAuthStateChanged((user) => {
+authInstance.onAuthStateChanged((user) => {
     if (!user) {
         console.log('fbauth.js: user not authenticated');
         return;
@@ -21,7 +21,7 @@ export const getName = () => userName;
 export const getUid = () => userUid;
 
 export const authenticate = function(email, name) {
-    Auth.signInAnonymously().then((userCredential) => {
+    authInstance.signInAnonymously().then((userCredential) => {
         userUid = userCredential.user.uid;
         localStorage.setItem('userUid', userUid);
         rtdb.set(RTDB_USERS_ROOT, getUid(), { email, name }, () => {
