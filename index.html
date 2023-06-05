@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Join - Chat App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      font-family: Ariel, Helvetica, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    *:focus {
+      outline: none;
+    }
+    div.root {
+      width: 100vw;
+      height: 100vh;
+      background-color: #E5EDF0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    form.content {
+      width: calc(100% - 10px);
+      max-width: 340px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #DBE3E6;
+    }
+    p {
+      margin: 10px auto;
+      color: #1A1E1F;
+      font-size: 0.9rem;
+    }
+    input.txt-creds {
+      width: calc(100% - 20px - 2px);
+      height: 15px;
+      margin: 10px auto;
+      padding: 10px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      display: block;
+      font-size: 0.9rem;
+    }
+    #txt-name, #txt-email {
+      display: none;
+    }
+    input[type="submit"] { 
+      padding: 10px 20px;
+      float: right;
+      border: 1px solid #3281F9;
+      border-radius: 5px;
+      background-color: #3281F9;
+      display: block;
+      color: white;
+      font-size: 0.9rem;
+      transition-duration: 200ms;
+    }
+    input[type="submit"]:hover {
+      cursor: pointer;
+    }
+    input[type="submit"]:active {
+      scale: 0.95;
+      background-color: #5194F9;
+      transition-duration: 150ms;
+    }
+  </style>
+  <script defer type="module">
+      import { auth } from 'fbauth.js';
+      import { rtdb } from 'fbrtdb.js';
+      const join = function() {
+          const roomid = document.getElementById('txt-roomid').value.replace(/ /g, '');
+          if (!auth.isAuthenticated()) {
+              const name = document.getElementById('txt-name').value.replace(/ /g, '');
+              const email = document.getElementById('txt-email').value.replace(/ /g, '');
+              auth.authenticate(email, name);
+              rtdb.addToRoom(roomid, name);
+          } else {
+              rtdb.addTo(auth.getName(), roomid);
+          }
+          const slash = location.href.endsWith('/') ? '' : '/';
+          location.href += slash + 'room.html?id=' + roomid;
+          return false;
+      }
+      const checkAuthStatus = function() {
+          if (!auth.isAuthenticated()) {
+              document.getElementById('txt-name').style.display = 'block';
+              document.getElementById('txt-email').style.display = 'block';
+              document.getElementById('txt-name').required = true;
+              document.getElementById('txt-email').required = true;
+          } else {
+              document.getElementById('heading').innerText = 'Welcome back, ' + auth.getName();
+          }
+      }
+      (function main() {
+          checkAuthStatus();
+          document.getElementById('form-join').onsubmit = join;
+      })();
+  </script>
+</head>
+<body>
+  <div class="root">
+    <div class="content" id="div-noscript">
+      <h3>Couldn't run Javascript</h3>
+      <p>Failed to execute Javascript. Make sure Javascript is enabled in your browser.</p>
+      <a href="/"><button>Reload</button></a>
+    </div>
+    <form class="content" id="form-join" style="display: none;" onsubmit="join()">
+      <h3 id="heading">Join a Room</h3>
+      <input class="txt-creds" id="txt-name" type="text" placeholder="Name">
+      <input class="txt-creds" id="txt-email" type="email" placeholder="Email">
+      <input class="txt-creds" id="txt-roomid" type="number" placeholder="Room ID" required>
+      <input type="submit" id="btn-submit" value="Submit">
+    </form>
+    <script>
+        document.getElementById('div-noscript').style.display = 'none';
+        document.getElementById('form-join').style.display = 'block';
+    </script>
+  </div>
+</body>
+</html>
