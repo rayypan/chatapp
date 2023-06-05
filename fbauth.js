@@ -1,4 +1,4 @@
-import { Auth, RTDB_USERS_ROOT } from 'fbinit.js';
+import { Auth, authInstance, RTDB_USERS_ROOT } from 'fbinit.js';
 import * as rtdb from 'fbrtdb.js';
 import * as util from 'util.js';
 
