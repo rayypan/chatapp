@@ -11,7 +11,7 @@ export const set = (root, key, data={}, onSet) => {
     Fbdb.set(Fbdb.ref(dbInstance, root + '/' + key), data).then(() => {
         onSet && onSet();
     }).catch((error) => {
-        console.error(`fbrtdb.js: set(): ${error}`);
+        console.error(`fbrtdb.js: set('${root}/${key}'): ${error}`);
     });
 }
 
@@ -19,7 +19,7 @@ export const update = (root, key, data={}, onUpdate) => {
     Fbdb.update(Fbdb.ref(dbInstance, root + '/' + key), data).then(() => {
         onUpdate && onUpdate();
     }).catch((error) => {
-        console.error(`fbrtdb.js: update(): ${error}`);
+        console.error(`fbrtdb.js: update('${root}/${key}'): ${error}`);
     });
 }
 
@@ -28,11 +28,11 @@ export const get = (root, key, onGet) => {
         if (!onGet) return;
         if (snapshot.exists()) onGet(snapshot);
         else {
-            console.error(`fbrtdb.js: get(): empty snapshot for '${key}'`);
+            console.error(`fbrtdb.js: get(): empty snapshot for '${root}/${key}'`);
             onGet(null);
         }
     }).catch((error) => {
-        console.error(`fbrtdb.js: get(): ${error}`);
+        console.error(`fbrtdb.js: get('${root}/${key}'): ${error}`);
     });
 }
 

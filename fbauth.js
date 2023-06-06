@@ -3,7 +3,7 @@ import * as rtdb from './fbrtdb.js';
 import * as util from './util.js';
 
 let userName = null;
-let userUid = localStorage.getItem('userUid') || null;
+let userUid = window.localStorage?.getItem('userUid') || null;
 
 Auth.onAuthStateChanged(authInstance, (user) => {
     if (!user) {
@@ -28,7 +28,7 @@ export const getUid = function() {
 export const authenticate = function(email, name) {
     Auth.signInAnonymously(authInstance).then(({ user }) => {
         userUid = user.uid;
-        localStorage.setItem('userUid', userUid);
+        window.localStorage?.setItem('userUid', userUid);
         rtdb.set(RTDB_USERS_ROOT, userUid, { email, name }, () => {
             console.log(`fbauth.js: authenticate::rtdb.set(): success`);
             if (!userName) rtdb.get(RTDB_USERS_ROOT, userUid, (data) => {

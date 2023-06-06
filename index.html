@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Join - Chat App</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
   <style>
     * {
       margin: 0;
@@ -80,10 +78,10 @@
       import * as auth from './fbauth.js';
       import * as rtdb from './fbrtdb.js';
       const join = function() {
-          const roomid = document.getElementById('txt-roomid').value.replace(/ /g, '');
+          const roomid = document.getElementById('txt-roomid').value.replace(/[^0-9]/g, '');
           if (!auth.isAuthenticated()) {
-              const name = document.getElementById('txt-name').value.replace(/ /g, '');
-              const email = document.getElementById('txt-email').value.replace(/ /g, '');
+              const name = document.getElementById('txt-name').value.replace(/[^A-Za-z0-9 ]/g, '');
+              const email = document.getElementById('txt-email').value;
               auth.authenticate(email, name);
               rtdb.addToRoom(roomid, name);
           } else {
@@ -109,21 +107,59 @@
 </head>
 <body>
   <div class="root">
-    <div class="content" id="div-noscript">
+    <form class="content" id="div-noscript">
       <h3>Couldn't run Javascript</h3>
       <p>Failed to execute Javascript. Make sure Javascript is enabled in your browser.</p>
-      <a href="/"><button>Reload</button></a>
-    </div>
+      <a href="/"><input type="submit" value="Reload"></a>
+    </form>
     <form class="content" id="form-join" style="display: none;" onsubmit="join()">
       <h3 id="heading">Join a Room</h3>
       <input class="txt-creds" id="txt-name" type="text" placeholder="Name">
       <input class="txt-creds" id="txt-email" type="email" placeholder="Email">
-      <input class="txt-creds" id="txt-roomid" type="number" placeholder="Room ID" required>
+      <input class="txt-creds"
+             id="txt-roomid"
+             type="number"
+             min="1"
+             placeholder="Room ID"
+             required>
       <input type="submit" id="btn-submit" value="Submit">
     </form>
+    <!-- this code hides the js disabled dialog so it need to load fast
+         since modules are slower to load this piece of code is put in a seperate
+         non-module type script tag. -->
     <script>
         document.getElementById('div-noscript').style.display = 'none';
         document.getElementById('form-join').style.display = 'block';
+    </script>
+    <!-- modules are apparently slower to load -->
+    <script type="module">
+        // validating input
+        import { KeyEvent } from './util.js';
+        const validRoomIdKey = function(e) {
+            const c = e.keyCode || event.which || event.charCode;
+            return [
+                KeyEvent.DOM_VK_CANCEL,
+                KeyEvent.DOM_VK_HELP,
+                KeyEvent.DOM_VK_BACK_SPACE,
+                KeyEvent.DOM_VK_CLEAR,
+                KeyEvent.DOM_VK_RETURN,
+                KeyEvent.DOM_VK_ENTER,
+                KeyEvent.DOM_VK_CONTROL,
+                KeyEvent.DOM_VK_ALT,
+                KeyEvent.DOM_VK_ESCAPE,
+                KeyEvent.DOM_VK_END,
+                KeyEvent.DOM_VK_HOME,
+                KeyEvent.DOM_VK_LEFT,
+                KeyEvent.DOM_VK_RIGHT,
+                KeyEvent.DOM_VK_INSERT,
+                KeyEvent.DOM_VK_DELETE,
+            ].includes(c) || KeyEvent.DOM_VK_0 <= c && c <= KeyEvent.DOM_VK_9;
+        }
+        const roomidInput = document.getElementById('txt-roomid');
+        roomidInput.onkeypress
+            = roomidInput.onkeydown
+            = roomidInput.oninput
+            = validRoomIdKey;
     </script>
   </div>
 </body>
