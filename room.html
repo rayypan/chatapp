@@ -44,13 +44,16 @@
       scale: 0.95;
       transition-duration: 150ms;
     }
-    .root {
+    body {
       height: calc(100vh - 57px);
+    }
+    .root {
+      height: 100%;
       display: flex;
       flex-direction: column;
     }
     .title-bar {
-      padding: 10px;
+      padding: 7px 10px;
       background-color: #E5E5E5;
       display: flex;
       align-items: center;
@@ -68,11 +71,11 @@
       background-color: #E5E5E5;
     }
     #btn-back {
-      margin-top: 1px;
+      margin-top: 1.5px;
       padding: 10px 12px;
       border-radius: 50px;
       color: gray;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
     #btn-back:active {
       background-color: #D8D8D8;
@@ -80,6 +83,7 @@
     #heading {
       margin: 0;
       padding: 0 5px;
+      color: #555;
     }
     #txt-msg {
       padding: 0.75rem 12px;
