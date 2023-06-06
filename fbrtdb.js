@@ -3,9 +3,9 @@ import {
     dbInstance,
     RTDB_USERS_ROOT,
     RTDB_ROOMS_ROOT,
-    RTDB_CHATS_ROOT } from 'fbinit.js';
+    RTDB_CHATS_ROOT } from './fbinit.js';
 
-import * as util from 'util.js';
+import * as util from './util.js';
 
 export const set = (root, key, data={}, onSet) => {
     Fbdb.set(Fbdb.ref(dbInstance, root + '/' + key), data).then(() => {

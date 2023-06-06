@@ -77,8 +77,8 @@
     }
   </style>
   <script defer type="module">
-      import * as auth from 'fbauth.js';
-      import * as rtdb from 'fbrtdb.js';
+      import * as auth from './fbauth.js';
+      import * as rtdb from './fbrtdb.js';
       const join = function() {
           const roomid = document.getElementById('txt-roomid').value.replace(/ /g, '');
           if (!auth.isAuthenticated()) {
@@ -103,10 +103,8 @@
               document.getElementById('heading').innerText = 'Welcome back, ' + auth.getName();
           }
       }
-      (function main() {
-          checkAuthStatus();
-          document.getElementById('form-join').onsubmit = join;
-      })();
+      checkAuthStatus();
+      document.getElementById('form-join').onsubmit = join;
   </script>
 </head>
 <body>

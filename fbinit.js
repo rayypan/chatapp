@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-import * as Fbdb from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
-import * as Auth from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+import * as _Fbdb from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
+import * as _Auth from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // firebase init
 // Your web app's Firebase configuration
@@ -26,11 +26,11 @@ if (/localhost|127\.0\.0\.1/i.test(location.href))
 
 // Initialize Firebase
 const app = initializeApp(config);
-export const dbInstance = Fbdb.getDatabase(app);
-export const authInstance = Auth.getAuth(app);
+export const dbInstance = _Fbdb.getDatabase(app);
+export const authInstance = _Auth.getAuth(app);
 
-export Fbdb;
-export Auth;
+export const Fbdb = _Fbdb;
+export const Auth = _Auth;
 
 /* Seperates roots for preview and production databases.
  * This code checks if the URL is the production URL and accordingly sets the

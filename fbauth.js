@@ -1,6 +1,6 @@
-import { Auth, authInstance, RTDB_USERS_ROOT } from 'fbinit.js';
-import * as rtdb from 'fbrtdb.js';
-import * as util from 'util.js';
+import { Auth, authInstance, RTDB_USERS_ROOT } from './fbinit.js';
+import * as rtdb from './fbrtdb.js';
+import * as util from './util.js';
 
 const userName = null;
 const userUid = null;
@@ -17,11 +17,16 @@ Auth.onAuthStateChanged(authInstance, (user) => {
     });
 });
 
-export const getName = () => userName;
-export const getUid = () => userUid;
+export const getName = function() {
+    return userName;
+}
+
+export const getUid = function() {
+    return userUid;
+}
 
 export const authenticate = function(email, name) {
-    Auth.signInAnonymously(authInstance).then({ user } => {
+    Auth.signInAnonymously(authInstance).then(({ user }) => {
         userUid = user.uid;
         localStorage.setItem('userUid', userUid);
         rtdb.set(RTDB_USERS_ROOT, getUid(), { email, name }, () => {
@@ -37,4 +42,8 @@ export const authenticate = function(email, name) {
     });
 }
 
-export const isAuthenticated = () => null != userUid;
+export const isAuthenticated = function() {
+    return null != userUid;
+}
+
+console.log('fbauth.js loaded');

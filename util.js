@@ -13,7 +13,9 @@
  * Returns UTC timestamp in ms (since Unix epoch).
  * @return {Number} Milliseconds time since Unix epoch.
  */
-export const getTimeStampUTC = () => Date.now();
+export const getTimeStampUTC = function() {
+    return Date.now();
+}
 
 /**
  * Gets current time zone, date time or return a date object.
