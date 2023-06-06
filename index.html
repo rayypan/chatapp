@@ -87,10 +87,10 @@
               auth.authenticate(email, name);
               rtdb.addToRoom(roomid, name);
           } else {
-              rtdb.addTo(auth.getName(), roomid);
+              rtdb.addToRoom(auth.getName(), roomid);
           }
           const slash = location.href.endsWith('/') ? '' : '/';
-          location.href += slash + 'room.html?id=' + roomid;
+          // location.href += slash + 'room.html?id=' + roomid;
           return false;
       }
       const checkAuthStatus = function() {

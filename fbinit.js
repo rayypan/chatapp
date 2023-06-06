@@ -21,8 +21,8 @@ const config = {
 };
 
 // If hosted on localhost, use database at localhost
-if (/localhost|127\.0\.0\.1/i.test(location.href))
-    config.databaseURL = 'http://localhost:9000/?ns=rayypan-chatapp';
+/* if (/localhost|127\.0\.0\.1/i.test(location.href))
+    config.databaseURL = 'http://localhost:9000/?ns=rayypan-chatapp'; */
 
 // Initialize Firebase
 const app = initializeApp(config);

@@ -2,8 +2,8 @@ import { Auth, authInstance, RTDB_USERS_ROOT } from './fbinit.js';
 import * as rtdb from './fbrtdb.js';
 import * as util from './util.js';
 
-const userName = null;
-const userUid = null;
+let userName = null;
+let userUid = localStorage.getItem('userUid') || null;
 
 Auth.onAuthStateChanged(authInstance, (user) => {
     if (!user) {
@@ -11,7 +11,7 @@ Auth.onAuthStateChanged(authInstance, (user) => {
         return;
     }
     userUid = user.uid;
-    if (!userName) rtdb.get(RTDB_USERS_ROOT, getUid(), (data) => {
+    if (!userName) rtdb.get(RTDB_USERS_ROOT, userUid, (data) => {
         userName = data?.name || null;
         console.log(`fbauth.js: onAuthStateChanged(): userName: ${userName}`);
     });
@@ -29,9 +29,9 @@ export const authenticate = function(email, name) {
     Auth.signInAnonymously(authInstance).then(({ user }) => {
         userUid = user.uid;
         localStorage.setItem('userUid', userUid);
-        rtdb.set(RTDB_USERS_ROOT, getUid(), { email, name }, () => {
+        rtdb.set(RTDB_USERS_ROOT, userUid, { email, name }, () => {
             console.log(`fbauth.js: authenticate::rtdb.set(): success`);
-            if (!userName) rtdb.get(RTDB_USERS_ROOT, getUid(), (data) => {
+            if (!userName) rtdb.get(RTDB_USERS_ROOT, userUid, (data) => {
                 userName = data?.name || null;
                 console.log(`fbauth.js: authenticate(): userName: ${userName}`);
             });
